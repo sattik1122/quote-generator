@@ -1,23 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Body from './components/Body';
+import {useState,useEffect} from "react"
 function App() {
+  const [quotes,setQuotes]=useState("")
+  const items=[]
+  const getQuote=()=>{
+    fetch("https://type.fit/api/quotes")
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+    data.forEach((item)=>{
+      items.push(item)
+      setQuotes(items)
+    })
+  });
+  // console.log(items)
+  }
+  
   return (
+    
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <h1>Quote generator</h1>
+      <Body quotes={quotes} getQuote={getQuote}/>
     </div>
   );
 }
